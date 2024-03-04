@@ -1,0 +1,37 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+vsizes <- c("S", "M", "L", "XL")
+```
+
+```{r}
+vect <- factor(sizes, ordered=TRUE, levels = vsizes)
+ventas <- c(30, 40, 15, 2, 34, 56, 67, 67, 54, 32, 2)
+mventas <- matrix(c(vect,ventas), byrow=TRUE, nrow=2)
+
+
+colnames(mventas) <- sizes
+mventas
+```
+
+```         
+```
+
+```{r}
+# Creación del Conjunto de Datos
+tallas <- c("M", "S", "XL", "L", "M", "L", "L", "XL", "M", "S", "S")
+
+# Asegurarse de que todos los tamaños están incluidos en el orden correcto
+todas_tallas <- c("XXS", "XS", "S", "M", "L", "XL", "XXL")
+
+# Convertir el vector de tamaños en un factor con el orden correcto
+tallas_orden <- factor(tallas, levels = todas_tallas, ordered = TRUE)
+```
+
+```{r}
+# Crear un data frame para asociar tamaños con ventas
+df_ventas <- data.frame(Tamanio = sizes_fact, Ventas = c(55, 15, 56, 100, 55, 100, 100, 56, 55, 15, 15))
+```

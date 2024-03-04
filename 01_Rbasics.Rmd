@@ -294,14 +294,14 @@ mean(total_daily)
 
     ```{r}
     v<-seq(1:100)
-    v^2
-    v/c(1,2)
+    #v^2
+    #v/c(1,2)
     dpar<-v[v%%2==0]
     dpar
-    dpartail<-tail(dpar,n=5)
-    dparhead<-head(dpar,n=5)
+    #dpartail<-tail(dpar,n=5)
+    #dparhead<-head(dpar,n=5)
 
-    c(dparhead,dpartail)
+    #c(dparhead,dpartail)
     ```
 
     \
@@ -448,10 +448,13 @@ vt<-matrix(vt,nrow = 4,byrow = TRUE,  dimnames = list(c("VIDEOS", "AUDIOS", "CAM
 visitors <- total/vt
 visitors
 es_visitors <- visitors[,1]
-
-# promedio de es_visitors
-mean(es_visitors)
 ```
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+`{# promedio de es_visitors} mean(es_visitors)`
 
 **Ejercicio 3**
 
@@ -605,7 +608,11 @@ da2>da5
 -   evalúa si curso 6 \> curso 3.
 
     ```{r}
+    curso <- c(1, 2, 3, 4, 5, 6)
+    curso_f <- factor(curso, ordered=TRUE)
 
+    curso_evalua <- curso_f[6] < curso_f[3]
+    curso_evalua
     ```
 
 ## 1.8 DataFrames
