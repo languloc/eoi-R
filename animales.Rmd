@@ -1,0 +1,194 @@
+---
+title: "animales"
+output: html_document
+date: "2024-03-05"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+# Tienes la siguiente información:- animal: "Zorro", "Ciervo", "Conejo", "Lobo", "Oso"- tamanho_cm: 50, 80, 40, 75, 90- peso_kg: 5, 12, 2, 8, 15- peligro: "No peligroso", "No peligroso", "No peligroso", "Peligroso", "Muy peligroso" 1. A partir de ello, crea un vector por cada una de las variables anteriores. El vector peligro tiene que ser de tipo factor.
+animal <- c("Zorro", "Ciervo", "Conejo", "Lobo", "Oso")
+tamanho_cm <- c(50, 80, 40, 75, 90)
+peso_kg <- c(5, 12, 2, 8, 15)
+peligro <- c("No peligroso", "No peligroso", "No peligroso", "Peligroso", "Muy peligroso")
+```
+
+```{r}
+peligro_factor <- factor(peligro, ordered = TRUE, levels = c("No peligroso", "Peligroso", "Muy peligroso"))
+
+# Crea otro vector que sea tamanho_m que sea tamaño en metros.
+tamano_m <- tamanho_cm / 100
+
+# Para convertir una medida de centímetros a pulgadas, simplemente se divide el número de centímetros por  2.54. crea otra columna que sea tamanho_pul que contenga el tamaño en pulgadas.
+tamanho_pul <- tamanho_cm / 2.54
+matriz <- matrix(tamanho_pul, nrow =  5, ncol = 2)
+
+# Crea otra variable que sea peso/tamaño (kg/cm).
+peso_tam <- peso_kg / tamanho_cm
+
+# Utiliza la variable peligroso para filtrar qué animales son menos que "Muy peligrosos".
+animales_menos_peligrosos <- animal[peligro_factor < "Muy peligroso"]
+animales_menos_peligrosos
+
+# Junta todos los datos en una matriz, que tenga las variables como columnas.
+mat <- matrix(c (tamanho_cm, peso_kg), byrow = TRUE, nrow = 5)
+mat
+```
+
+```{r}
+# Calcula las sumas y promedios de las variables tamnho_cm y peso_kg
+suma_tam <- sum(tamanho_cm)
+mean_peso <- mean(peso_kg)
+
+# . Selecciona el elemento de la matriz que contiene el elemento del tamanho del zorro.
+selec <- matrix[tamanho_cm("Zorro")]
+```
+
+```{r}
+# Añade una nueva columna a la matriz que sea n_observaciones que sea para el zorro 20, ciervo 10, conejo 50, lobo 15 y Oso 3. 
+ n_observaciones <- c(20, 10, 50, 15, 39)
+ matrix <- cbind(matrix, n_observaciones)
+ matrix
+```
+
+```{r}
+animals_info <- data.frame(animal, tamanho_cm, peso_kg, peligro)
+animals_info
+```
+
+```{r}
+# Ejercicio 2
+# Crea un dataframe llamado animals_info_ord que tenga los valores ordenados por peso_kg de menor a mayor.
+animals_info_ord <- animals_info[order(animals_info$peso_kg),]
+
+# Investiga la estructura del dataframe animals_info con str.
+str(animals_info_ord)
+
+# Haz el promedio de las variables tamanho y peso.
+mean(animals_info$tamanho_cm)
+mean(animals_info$peso_kg)
+
+# Añade una nueva columna que sea n_observaciones que sea para el zorro 20, ciervo 10, conejo 50, lobo 15 y Oso 3. 
+ n_obs <- c(20, 10, 50, 15, 39)
+ animals_info <- cbind(animals_info, n_obs)
+ animals_info
+ 
+ # Filtra las filas con n_observaciones  mayores de 10.
+ subset(animals_info, n_obs>10)
+```
+
+```{r}
+# Crea una función que convierta de cm a pulgadas y  llamala cm_to_pulg
+cm_to_pulg <- function(cm) {cm / 2.54}
+
+# Aplica la función a la variable tamanho_cm en el dataframe y crea una nueva columna que se llame tamanho_pulg.
+animals_info <- cbind(animals_info, cm_to_pulg(tamanho_cm))
+animals_info
+```
+
+```{r}
+# Se te ha proporcionado un vector con las alturas (en centímetros) de un grupo de monos. Tu tarea es crear una función que devuelva el número de veces que cada mono cae en cada categoría. Las categorías son:
+# -Bajo: Menos de 140 cm; 
+# Medio: 140 cm a 170 cm; 
+# Alto: Más de 170 cm 
+# Por ejemplo: si pasamos c(120,120, 150), devolverá (2,1,0). Haz la prueba con el siguiente vector: c(120,130,175,175,167,120,134,155)
+
+# Definición de la función para clasificar y contar alturas
+clasificar_alturas <- function(alturas) {
+  categorias <- c("Bajo", "Medio", "Alto")
+  conteos <- c(sum(alturas < 140), sum(alturas >= 140 & alturas <= 170), sum(alturas > 170))
+  names(conteos) <- categorias
+  return(conteos)
+}
+
+# Vector de alturas proporcionado
+alturas_monos <- c(120, 130, 175, 175, 167, 120, 134, 155)
+
+# Llamada a la función con el vector de alturas
+conteo_categorias <- clasificar_alturas(alturas_monos)
+conteo_categorias
+
+```
+
+```{r}
+# Ejercicio 3
+
+# Existen datasets precargados en R. Mira la variable, mtcars.
+mtcars
+
+# Utilizando lapply, calcula la media por columna. Usa luego sapply, que diferencias ves?
+media_lapply <- lapply(mtcars, mean)
+media_lapply
+
+media_sapply <- sapply(mtcars, mean)
+media_sapply
+
+# Utilizando la función apply (mira en help la diferencia), calcula para el dataset del Titanic la suma de gente en función de la clase en la que iba. También evalúa la suma de gente que era Hombre o mujer en el dataset.
+Titanic
+
+suma_por_clase <- apply(Titanic, c(1), sum)
+Titanic_simplificado <- margin.table(Titanic, c(2))
+suma_por_sexo <- apply(Titanic_simplificado, 1, sum)
+
+suma_por_clase
+suma_por_sexo
+
+# Crea una función que tenga de entrada un vector v y la salida sea el número de elementos múltiplos de 3 que contenga el mismo.
+
+multiplos <- function(v) {v %% 3 == 0}
+```
+
+```{r}
+# Ejercicio 4
+# Crea en Rmarkdown un fichero donde desarrolles el siguiente sistema 
+# a. Lectura de los datos 
+URL <- "https://raw.githubusercontent.com/UBC-DSCI/data/main/can_lang.csv"
+
+df <- read.csv2(URL, sep = ",")
+df
+
+# b. Calcular la media para las columnas numéricas y el valor más frecuente para las no numéricas. 
+medias <- sapply(df[sapply(df, is.numeric)], mean, na.rm = TRUE)
+medias
+
+# c. Filtrar aquellas columnas en las que lang_known esté por encima de la media
+moda <- function(x) {
+  unicos <- unique(x)
+  unicos[which.max(tabulate(match(x, unicos)))]
+}
+modas <- sapply(df[sapply(df, function(x) !is.numeric(x))], moda)
+modas
+
+# Genera un script de la funciones generadas y guardalo en R
+
+
+# Genera un script de la funciones generadas y guardalo en R
+
+
+# Genera un script de la funciones generadas y guardalo en R
+
+
+```
